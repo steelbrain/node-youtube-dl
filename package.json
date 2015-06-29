@@ -1,6 +1,6 @@
 {
   "name": "node-youtube-dl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A youtube-dl downloading interface for Node",
   "main": "Source/Main",
   "dependencies": {
