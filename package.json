@@ -1,0 +1,23 @@
+{
+  "name": "node-youtube-dl",
+  "version": "0.0.1",
+  "description": "A youtube-dl downloading interface for Node",
+  "main": "Source/Main",
+  "dependencies": {
+    "request": "^2.58.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steelbrain/node-youtube-dl.git"
+  },
+  "author": "steelbrain",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/steelbrain/node-youtube-dl/issues"
+  },
+  "homepage": "https://github.com/steelbrain/node-youtube-dl#readme"
+}
