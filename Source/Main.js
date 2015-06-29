@@ -2,15 +2,14 @@
 
 let ChildProcess = require('child_process')
 let FS = require('fs')
+let HTTPS = require('https')
+let Request = require('request')
 
 class YTDL{
-  static download(){
-
-  }
-  static __getInfo(ID, Quality){
+  static download(ID, Quality){
     let CookiePath = `/tmp/youtube-dl-${ID}-${Math.random()}`
-    let Request = {URL: '', Cookies: ''}
-    let Request = new Promise(function(Resolve, Reject){
+    let Info = {URL: '', Cookies: ''}
+    let DL = new Promise(function(Resolve, Reject){
       let Output = {stdout: [], stderr: []}
       let Process = ChildProcess.spawn('youtube-dl', ['-f', Quality, '-g', '--cookies', CookiePath, ID])
       let Timeout
@@ -26,7 +25,19 @@ class YTDL{
         clearTimeout(Timeout)
         let Response = {stdout: Output.stdout.join(''), stderr: Output.stderr.join('')}
         if(Response.stderr) return Reject(new Error(Response.stderr))
-        Request.URL = Response.stdout
+        Info.URL = Response.stdout.trim()
+        FS.readFile(CookiePath, function(err, data){
+          if(err) return Reject(err)
+          data = data.toString()
+          let Cookies = []
+          let Result
+          let Regex = /\d+.*?(\w+).*?(\w.*)/g
+          while((Result = Regex.exec(data)) !== null){
+            Cookies.push(Result[1] + '=' + encodeURIComponent(Result[2]))
+          }
+          Info.Cookies = Cookies.join('&')
+          Resolve()
+        })
       })
       Timeout = setTimeout(function(){
         if(Process.exited){
@@ -35,8 +46,9 @@ class YTDL{
         }
       }, 15000)
     })
-    Request.then(function(){
+    return DL.then(function(){
       FS.unlink(CookiePath)
+      return Request({url: Info.URL, headers: {'Cookie': Info.Cookies}})
     })
   }
 }
