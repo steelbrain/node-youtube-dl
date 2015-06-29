@@ -7,6 +7,11 @@ let Request = require('request')
 
 class YTDL{
   static download(ID, Quality){
+    return YTDL.info(ID, Quality).then(function(Info){
+      return Request(Info)
+    })
+  }
+  static info(ID, Quality){
     let CookiePath = `/tmp/youtube-dl-${ID}-${Math.random()}`
     let Info = {URL: '', Cookies: ''}
     let DL = new Promise(function(Resolve, Reject){
@@ -48,7 +53,7 @@ class YTDL{
     })
     return DL.then(function(){
       FS.unlink(CookiePath)
-      return Request({url: Info.URL, headers: {'Cookie': Info.Cookies}})
+      return {url: Info.URL, headers: {'Cookie': Info.Cookies}}
     })
   }
 }
