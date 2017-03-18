@@ -1,5 +1,7 @@
 Node-Youtube-DL
 ===========
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/steelbrain/node-youtube-dl.svg)](https://greenkeeper.io/)
 Node-Youtube-DL is a youtube-dl downloader interface for Node. It works with streams so you can pipe the output in an HTTP connection or a FileSystem or a stream of your choice.
 
 #### Hello World
